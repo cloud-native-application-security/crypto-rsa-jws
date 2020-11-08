@@ -14,7 +14,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>crypto-rsa-jws</name>
   <packaging>pom</packaging>
-  <description>RSA sigining using JSON Web Encryption (JWE)</description>
+  <description>RSA signing using JSON Web Encryption (JWE)</description>
 
   <properties>
     <java.version>11</java.version>
