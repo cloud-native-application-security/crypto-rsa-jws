@@ -1,6 +1,6 @@
 package com.example.payments;
 
-import com.example.util.RsaCipher;
+import com.example.util.RsaVerifier;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,16 +17,17 @@ public class PaymentsController {
 
   @GetMapping("/")
   public String processRefunds() {
-    var rsaCipher = new RsaCipher();
 
-    String refundsJwe =
-        restTemplate.postForObject(
-            "http://localhost:8082/refunds", rsaCipher.getPublicKey(), String.class);
-    var refundsJson = rsaCipher.decrypt(refundsJwe);
+    var warehousePublicKey =
+        restTemplate.getForObject("http://localhost:8082/publicKey", String.class);
+    var rsaVerifier = new RsaVerifier(warehousePublicKey);
 
-    System.out.println("Refunds JWE : " + refundsJwe);
-    System.out.println("Payments key pair: " + rsaCipher.keyPairJson());
-    System.out.println("Decrypted Refunds ...");
+    String refundsJws = restTemplate.getForObject("http://localhost:8082/refunds", String.class);
+    String refundsJson = rsaVerifier.verify(refundsJws).orElseThrow();
+
+    System.out.println("Refunds JWS : " + refundsJws);
+    System.out.println("Warehouse Public Key: " + rsaVerifier.getKeyJson());
+    System.out.println("Verified Refunds ...");
     System.out.println(refundsJson);
     return refundsJson;
   }
