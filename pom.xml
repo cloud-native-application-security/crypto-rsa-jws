@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.3.RELEASE</version>
+    <version>2.6.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.example</groupId>
@@ -14,11 +14,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>crypto-rsa-jws</name>
   <packaging>pom</packaging>
-  <description>RSA signing using JSON Web Encryption (JWE)</description>
+  <description>RSA signing using JSON Web Signature (JWS)</description>
 
   <properties>
-    <java.version>11</java.version>
-    <spring-security.version>5.4.1</spring-security.version>
+    <java.version>17</java.version>
   </properties>
 
   <modules>
@@ -32,17 +31,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.junit.vintage</groupId>
-          <artifactId>junit-vintage-engine</artifactId>
-        </exclusion>
-        <!-- conflict with google Tink pulling in org.json:json:20180813 -->
-        <exclusion>
-          <groupId>com.vaadin.external.google</groupId>
-          <artifactId>android-json</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
   </dependencies>
 
@@ -51,11 +39,10 @@
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
-        <version>2.0.2</version>
+        <version>2.21.0</version>
         <configuration>
           <java>
             <googleJavaFormat>
-              <version>1.8</version>
             </googleJavaFormat>
           </java>
         </configuration>
